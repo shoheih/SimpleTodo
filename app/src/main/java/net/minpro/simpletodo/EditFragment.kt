@@ -4,9 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -52,7 +50,23 @@ class EditFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit, container, false)
+        val view = inflater.inflate(R.layout.fragment_edit, container, false)
+        setHasOptionsMenu(true)
+        return view
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.apply {
+            findItem(R.id.menu_delete).isVisible = false
+            findItem(R.id.menu_edit).isVisible = false
+            findItem(R.id.menu_register).isVisible = true
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        //TODO DBへの登録処理
+        return super.onOptionsItemSelected(item)
     }
 
     // TODO: Rename method, update argument and hook method into UI event
