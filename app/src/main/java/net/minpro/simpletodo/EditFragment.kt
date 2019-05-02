@@ -28,15 +28,22 @@ private val ARG_mode = IntentKey.MODE_IN_EDIT.name
  */
 class EditFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var title: String? = ""
+    private var deadline: String? = ""
+    private var taskDetail: String? = ""
+    private var isCompleted: Boolean = false
+    private var mode: ModeInEdit? = null
+
     private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            title = it.getString(ARG_title)
+            deadline = it.getString(ARG_deadline)
+            taskDetail = it.getString(ARG_taskDetail)
+            isCompleted = it.getBoolean(ARG_isCompleted)
+            mode = it.getSerializable(ARG_mode) as ModeInEdit
         }
     }
 
