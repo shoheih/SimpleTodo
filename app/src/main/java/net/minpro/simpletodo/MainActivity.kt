@@ -40,7 +40,8 @@ class MainActivity : AppCompatActivity() {
 //            fragmentTransaction.commit()
 
             supportFragmentManager.beginTransaction()
-                .add(R.id.container_detail, EditFragment.newInstance("1", "1"), FragmentTag.EDIT.toString()).commit()
+                .add(R.id.container_detail, EditFragment.newInstance(title, deadline, taskDetail, isCompleted, mode),
+                    FragmentTag.EDIT.toString()).commit()
 
             return
         }
