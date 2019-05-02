@@ -6,4 +6,10 @@
           android:title="@string/action_settings"
           android:orderInCategory="100"
           app:showAsAction="never"/>
+    <item android:id="@+id/menu_delete" android:title="@string/delete" android:icon="@drawable/ic_delete_black_24dp"
+          app:showAsAction="ifRoom"/>
+    <item android:title="@string/edit" android:id="@+id/menu_edit" android:icon="@drawable/ic_edit_black_24dp"
+          app:showAsAction="ifRoom"/>
+    <item android:title="@string/register" android:id="@+id/menu_register" android:icon="@drawable/ic_done_black_24dp"
+          app:showAsAction="ifRoom"/>
 </menu>
