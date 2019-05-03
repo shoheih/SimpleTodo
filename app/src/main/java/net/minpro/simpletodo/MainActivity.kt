@@ -16,7 +16,13 @@ class MainActivity : AppCompatActivity(), EditFragment.OnFragmentInteractionList
     //DatePickerDialogFragment.OnDateSetListener#onDataEdited
     override fun onDataEdited() {
         //TODO リストの更新処理
+        updateTodoList()
+    }
 
+    private fun updateTodoList() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container_master, MasterFragment.newInstance(1),
+                FragmentTag.MASTER.toString()).commit()
     }
 
     //DatePickerDialogFragment.OnDateSetListener#onDateSelected
@@ -48,6 +54,12 @@ class MainActivity : AppCompatActivity(), EditFragment.OnFragmentInteractionList
             goEditScreen("", "", "",false, ModeInEdit.NEW_ENTRY)
         }
 
+    }
+
+    //EditActivityから帰ってきた時(スマホの場合)
+    override fun onResume() {
+        super.onResume()
+        updateTodoList()
     }
 
     private fun goEditScreen(
