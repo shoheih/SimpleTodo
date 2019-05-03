@@ -2,9 +2,9 @@ package net.minpro.simpletodo
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity;
-
-import kotlinx.android.synthetic.main.activity_detail.*
+import android.support.v7.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_detail.toolbar
+import kotlinx.android.synthetic.main.activity_main.*
 
 class DetailActivity : AppCompatActivity() {
 

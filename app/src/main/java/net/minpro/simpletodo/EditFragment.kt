@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
+import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_edit.*
 
 
@@ -85,7 +86,39 @@ class EditFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         //TODO DBへの登録処理
+        if (item!!.itemId == R.id.menu_register) recordToRealmDB(mode)
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun recordToRealmDB(mode: ModeInEdit?) {
+        when (mode) {
+            ModeInEdit.NEW_ENTRY -> {
+                addNewTodo()
+            }
+            ModeInEdit.EDIT -> {
+                editExistingTodo()
+            }
+        }
+
+    }
+
+    private fun editExistingTodo() {
+
+    }
+
+    private fun addNewTodo() {
+        val realm = Realm.getDefaultInstance()
+        realm.beginTransaction()
+        val newTodo = realm.createObject(TodoModel::class.java)
+        newTodo.apply {
+            title = inputTitleText.text.toString()
+            deadLine = inputDateText.text.toString()
+            taskDetail = inputDetailText.text.toString()
+            isCompleted = checkBox.isChecked
+        }
+        realm.commitTransaction()
+
+        realm.close()
     }
 
     override fun onAttach(context: Context) {
