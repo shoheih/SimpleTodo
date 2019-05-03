@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity(), EditFragment.OnFragmentInteractionList
     //DatePickerDialogFragment.OnDateSetListener#onDataEdited
     override fun onDataEdited() {
         //TODO リストの更新処理
+
     }
 
     //DatePickerDialogFragment.OnDateSetListener#onDateSelected
@@ -37,6 +38,10 @@ class MainActivity : AppCompatActivity(), EditFragment.OnFragmentInteractionList
 
         // SmartPhon or Tablet
         if (R.id.container_detail != null) isTwoPane = true
+
+        supportFragmentManager.beginTransaction()
+            .add(R.id.container_master, MasterFragment.newInstance(1),
+                    FragmentTag.MASTER.toString()).commit()
 
         // タスクの新規登録
         fab.setOnClickListener { view ->
