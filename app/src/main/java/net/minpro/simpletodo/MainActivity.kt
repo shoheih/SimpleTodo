@@ -5,16 +5,18 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.EditText
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), EditFragment.OnFragmentInteractionListener,
                                           DatePickerDialogFragment.OnDateSetListener {
-    
+
     var isTwoPane: Boolean = false
 
     //DatePickerDialogFragment.OnDateSetListener#onDateSelected
-    override fun onDateSelected() {
-
+    override fun onDateSelected(dateString: String) {
+        val inputDateText = findViewById<EditText>(R.id.inputDateText)
+        inputDateText.setText(dateString)
     }
 
     //EditFragment.OnFragmentInteractionListener#onDatePickerLaunched
