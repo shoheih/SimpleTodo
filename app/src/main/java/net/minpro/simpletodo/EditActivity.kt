@@ -5,7 +5,12 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import kotlinx.android.synthetic.main.activity_edit.*
 
-class EditActivity : AppCompatActivity() {
+class EditActivity : AppCompatActivity(), EditFragment.OnFragmentInteractionListener {
+
+    //EditFragment.OnFragmentInteractionListener#onDatePickerLaunched
+    override fun onDatePickerLaunched() {
+        DatePickerDialogFragment().show(supportFragmentManager, FragmentTag.DATE_PICKER.toString())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

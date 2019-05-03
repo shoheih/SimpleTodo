@@ -1,7 +1,6 @@
 package net.minpro.simpletodo
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
@@ -59,6 +58,9 @@ class EditFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateUi(mode!!)
+        imageButtonDateSet.setOnClickListener {
+            listener!!.onDatePickerLaunched()
+        }
     }
 
     private fun updateUi(mode: ModeInEdit) {
@@ -84,11 +86,6 @@ class EditFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         //TODO DBへの登録処理
         return super.onOptionsItemSelected(item)
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
     }
 
     override fun onAttach(context: Context) {
@@ -117,8 +114,7 @@ class EditFragment : Fragment() {
      * for more information.
      */
     interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
+        fun onDatePickerLaunched()
     }
 
     companion object {

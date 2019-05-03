@@ -16,5 +16,6 @@ enum class ModeInEdit {
 enum class FragmentTag {
     MASTER,
     DETAIL,
-    EDIT
+    EDIT,
+    DATE_PICKER
 }

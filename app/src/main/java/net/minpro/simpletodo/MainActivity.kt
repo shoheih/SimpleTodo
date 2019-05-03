@@ -7,7 +7,12 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), EditFragment.OnFragmentInteractionListener {
+
+    //EditFragment.OnFragmentInteractionListener#onDatePickerLaunched
+    override fun onDatePickerLaunched() {
+        DatePickerDialogFragment().show(supportFragmentManager, FragmentTag.DATE_PICKER.toString())
+    }
 
     var isTwoPane: Boolean = false
 
