@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment
 import android.view.*
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_edit.*
+import java.text.ParseException
+import java.text.SimpleDateFormat
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -112,8 +114,27 @@ class EditFragment : Fragment() {
             return false
         }
 
-        if (inputDateText.text.toString() == "") {
+        if (!inputDateCheck(inputDateText.text.toString())) {
             inputDate.error = getString(R.string.error)
+            return false
+        }
+
+//        if (inputDateText.text.toString() == "") {
+//            inputDate.error = getString(R.string.error)
+//            return false
+//        }
+
+        return true
+    }
+
+    private fun inputDateCheck(inputDate: String): Boolean {
+        if (inputDate == "") return false
+
+        try {
+            val format = SimpleDateFormat("yyyy/MM/dd")
+            format.isLenient = false
+            format.parse(inputDate)
+        } catch (e: ParseException) {
             return false
         }
 
