@@ -2,12 +2,33 @@ package net.minpro.simpletodo
 
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.widget.DatePicker
 import java.util.*
 
 class DatePickerDialogFragment: DialogFragment(), DatePickerDialog.OnDateSetListener {
+
+    var listener: OnDateSetListener? = null
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (context is OnDateSetListener) {
+            listener = context
+        } else {
+            throw RuntimeException(context!!.toString() + " must implement onDateSetListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
+
+    interface OnDateSetListener {
+        fun onDateSelected()
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val calendar = Calendar.getInstance()
@@ -20,7 +41,7 @@ class DatePickerDialogFragment: DialogFragment(), DatePickerDialog.OnDateSetList
 
     //DatePickerDialog.OnDateSetListener#onDateSet
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
-        
+
 
     }
 }
