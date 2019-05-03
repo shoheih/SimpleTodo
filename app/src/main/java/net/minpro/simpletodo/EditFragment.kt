@@ -91,6 +91,10 @@ class EditFragment : Fragment() {
     }
 
     private fun recordToRealmDB(mode: ModeInEdit?) {
+
+        val isRequiredItemsFilled = isRequiredFilledCheck()
+        if (!isRequiredItemsFilled) return
+
         when (mode) {
             ModeInEdit.NEW_ENTRY -> {
                 addNewTodo()
@@ -100,6 +104,20 @@ class EditFragment : Fragment() {
             }
         }
 
+    }
+
+    private fun isRequiredFilledCheck(): Boolean {
+        if (inputTitleText.text.toString() == "") {
+            inputTitle.error = getString(R.string.error)
+            return false
+        }
+
+        if (inputDateText.text.toString() == "") {
+            inputDate.error = getString(R.string.error)
+            return false
+        }
+
+        return true
     }
 
     private fun editExistingTodo() {
