@@ -106,6 +106,8 @@ class EditFragment : Fragment() {
             }
         }
 
+        listener?.onDataEdited()
+        fragmentManager!!.beginTransaction().remove(this).commit()
     }
 
     private fun isRequiredFilledCheck(): Boolean {
@@ -187,6 +189,7 @@ class EditFragment : Fragment() {
      */
     interface OnFragmentInteractionListener {
         fun onDatePickerLaunched()
+        fun onDataEdited()
     }
 
     companion object {

@@ -8,10 +8,15 @@ import android.view.MenuItem
 import android.widget.EditText
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), EditFragment.OnFragmentInteractionListener,
-                                          DatePickerDialogFragment.OnDateSetListener {
+class MainActivity : AppCompatActivity(), EditFragment.OnFragmentInteractionListener
+                                        , DatePickerDialogFragment.OnDateSetListener {
 
     var isTwoPane: Boolean = false
+
+    //DatePickerDialogFragment.OnDateSetListener#onDataEdited
+    override fun onDataEdited() {
+        //TODO リストの更新処理
+    }
 
     //DatePickerDialogFragment.OnDateSetListener#onDateSelected
     override fun onDateSelected(dateString: String) {

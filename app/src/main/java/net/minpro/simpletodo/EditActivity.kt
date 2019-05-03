@@ -6,8 +6,13 @@ import android.view.Menu
 import android.widget.EditText
 import kotlinx.android.synthetic.main.activity_edit.*
 
-class EditActivity : AppCompatActivity(), EditFragment.OnFragmentInteractionListener,
-                                          DatePickerDialogFragment.OnDateSetListener {
+class EditActivity : AppCompatActivity(), EditFragment.OnFragmentInteractionListener
+                                        , DatePickerDialogFragment.OnDateSetListener {
+
+    //DatePickerDialogFragment.OnDateSetListener#onDataEdited
+    override fun onDataEdited() {
+        finish()
+    }
 
     //DatePickerDialogFragment.OnDateSetListener#onDateSelected
     override fun onDateSelected(dateString: String) {
