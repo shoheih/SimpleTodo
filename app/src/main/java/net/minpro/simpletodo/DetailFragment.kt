@@ -4,15 +4,16 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import kotlinx.android.synthetic.main.fragment_detail.*
 
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private val ARG_title = IntentKey.TITLE.name
+private val ARG_deadline = IntentKey.DEADLINE.name
+private val ARG_taskDetail = IntentKey.TASK_DETAIL.name
+private val ARG_isCompleted = IntentKey.IS_COMPLETED.name
 
 /**
  * A simple [Fragment] subclass.
@@ -25,15 +26,20 @@ private const val ARG_PARAM2 = "param2"
  */
 class DetailFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var title: String? = ""
+    private var deadline: String? = ""
+    private var taskDetail: String? = ""
+    private var isCompleted: Boolean = false
+
     private var listener: OnFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            title = it.getString(ARG_title)
+            deadline = it.getString(ARG_deadline)
+            taskDetail = it.getString(ARG_taskDetail)
+            isCompleted = it.getBoolean(ARG_isCompleted)
         }
     }
 
@@ -42,12 +48,38 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+        val view = inflater.inflate(R.layout.fragment_detail, container, false)
+        setHasOptionsMenu(true)
+        return view
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        title_detail.text = title
+        deadline_detail.text = deadline
+        todo_detail.text = taskDetail
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu!!.apply {
+            findItem(R.id.menu_delete).isVisible = true
+            findItem(R.id.menu_edit).isVisible = true
+            findItem(R.id.menu_register).isVisible = false
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item!!.itemId) {
+            R.id.menu_delete -> {
+
+            }
+            R.id.menu_edit -> {
+
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onAttach(context: Context) {
@@ -91,11 +123,14 @@ class DetailFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(title: String, deadline: String,
+                        taskDetail: String, isCompleted: Boolean) =
             DetailFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putString(ARG_title, title)
+                    putString(ARG_deadline, deadline)
+                    putString(ARG_taskDetail, taskDetail)
+                    putBoolean(ARG_isCompleted, isCompleted)
                 }
             }
     }

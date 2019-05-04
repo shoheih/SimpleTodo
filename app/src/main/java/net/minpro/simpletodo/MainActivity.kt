@@ -9,20 +9,19 @@ import android.widget.EditText
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), EditFragment.OnFragmentInteractionListener
-                                        , DatePickerDialogFragment.OnDateSetListener {
+                                        , DatePickerDialogFragment.OnDateSetListener
+                                        , MasterFragment.OnListFragmentInteractionListener {
 
     var isTwoPane: Boolean = false
 
-    //DatePickerDialogFragment.OnDateSetListener#onDataEdited
-    override fun onDataEdited() {
-        //TODO リストの更新処理
-        updateTodoList()
+    //MasterFragment.OnListFragmentInteractionListener#onListItemClicked
+    override fun onListItemClicked(item: TodoModel) {
+        goDetailScreen(item.title, item.deadLine, item.taskDetail, item.isCompleted)
     }
 
-    private fun updateTodoList() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container_master, MasterFragment.newInstance(1),
-                FragmentTag.MASTER.toString()).commit()
+    //DatePickerDialogFragment.OnDateSetListener#onDataEdited
+    override fun onDataEdited() {
+        updateTodoList()
     }
 
     //DatePickerDialogFragment.OnDateSetListener#onDateSelected
@@ -62,6 +61,12 @@ class MainActivity : AppCompatActivity(), EditFragment.OnFragmentInteractionList
         updateTodoList()
     }
 
+    private fun updateTodoList() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container_master, MasterFragment.newInstance(1),
+                FragmentTag.MASTER.toString()).commit()
+    }
+
     private fun goEditScreen(
         title: String,
         deadline: String,
@@ -75,9 +80,21 @@ class MainActivity : AppCompatActivity(), EditFragment.OnFragmentInteractionList
 //            fragmentTransaction.add(R.id.container_detail, EditFragment.newInstance("1", "1"))
 //            fragmentTransaction.commit()
 
-            supportFragmentManager.beginTransaction()
-                .add(R.id.container_detail, EditFragment.newInstance(title, deadline, taskDetail, isCompleted, mode),
-                    FragmentTag.EDIT.toString()).commit()
+            if (supportFragmentManager.findFragmentByTag(FragmentTag.EDIT.toString()) == null &&
+                supportFragmentManager.findFragmentByTag(FragmentTag.DETAIL.toString()) == null) {
+
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.container_detail, EditFragment.newInstance(title, deadline, taskDetail, isCompleted, mode),
+                        FragmentTag.EDIT.toString()).commit()
+
+            } else {
+
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container_detail, EditFragment.newInstance(title, deadline, taskDetail, isCompleted, mode),
+                        FragmentTag.EDIT.toString()).commit()
+
+            }
+
 
             return
         }
@@ -88,6 +105,41 @@ class MainActivity : AppCompatActivity(), EditFragment.OnFragmentInteractionList
             putExtra(IntentKey.TASK_DETAIL.name, taskDetail)
             putExtra(IntentKey.IS_COMPLETED.name, isCompleted)
             putExtra(IntentKey.MODE_IN_EDIT.name, mode)
+        }
+        startActivity(intent)
+    }
+
+    private fun goDetailScreen(
+        title: String,
+        deadline: String,
+        taskDetail: String,
+        isCompleted: Boolean) {
+
+        if (isTwoPane) {
+            if (supportFragmentManager.findFragmentByTag(FragmentTag.EDIT.toString()) == null &&
+                supportFragmentManager.findFragmentByTag(FragmentTag.DETAIL.toString()) == null) {
+
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.container_detail,
+                        DetailFragment.newInstance(title, deadline, taskDetail, isCompleted),
+                        FragmentTag.DETAIL.toString()).commit()
+
+            } else {
+
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container_detail,
+                        DetailFragment.newInstance(title, deadline, taskDetail, isCompleted),
+                        FragmentTag.DETAIL.toString()).commit()
+
+            }
+            return
+        }
+
+        val intent = Intent(this@MainActivity, DetailActivity::class.java).apply {
+            putExtra(IntentKey.TITLE.name, title)
+            putExtra(IntentKey.DEADLINE.name, deadline)
+            putExtra(IntentKey.TASK_DETAIL.name, taskDetail)
+            putExtra(IntentKey.IS_COMPLETED.name, isCompleted)
         }
         startActivity(intent)
     }
