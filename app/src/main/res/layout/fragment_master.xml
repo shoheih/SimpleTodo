@@ -22,14 +22,14 @@
                 <TextView
                         android:text="TextView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" android:id="@+id/title"
+                        android:layout_height="wrap_content" android:id="@+id/textViewTitle"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:layout_margin="@dimen/text_margin" android:gravity="center_vertical"
                         android:textSize="24sp"/>
                 <TextView
                         android:text="TextView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" android:id="@+id/deadline"
+                        android:layout_height="wrap_content" android:id="@+id/textViewDeadline"
                         android:layout_margin="@dimen/text_margin" android:gravity="center_vertical"/>
             </LinearLayout>
         </LinearLayout>

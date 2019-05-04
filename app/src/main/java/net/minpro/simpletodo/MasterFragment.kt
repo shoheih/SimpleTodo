@@ -7,9 +7,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
-
-import net.minpro.simpletodo.dummy.DummyContent
-import net.minpro.simpletodo.dummy.DummyContent.DummyItem
+import io.realm.Realm
 
 /**
  * A fragment representing a list of Items.
@@ -46,7 +44,12 @@ class MasterFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MyMasterRecyclerViewAdapter(DummyContent.ITEMS, listener)
+                val realm = Realm.getDefaultInstance()
+                val results = realm.where(TodoModel::class.java)
+                    .equalTo(TodoModel::isCompleted.name, false)
+                    .sort(TodoModel::deadLine.name).findAll()
+
+                adapter = MyMasterRecyclerViewAdapter(results, listener)
             }
         }
         return view
@@ -96,7 +99,7 @@ class MasterFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: DummyItem?)
+        fun onListFragmentInteraction(item: TodoModel)
     }
 
     companion object {
