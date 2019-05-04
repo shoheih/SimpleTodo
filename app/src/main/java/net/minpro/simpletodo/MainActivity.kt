@@ -7,12 +7,30 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity(), EditFragment.OnFragmentInteractionListener
                                         , DatePickerDialogFragment.OnDateSetListener
-                                        , MasterFragment.OnListFragmentInteractionListener {
+                                        , MasterFragment.OnListFragmentInteractionListener
+                                        , DetailFragment.OnFragmentInteractionListener {
 
     var isTwoPane: Boolean = false
+
+    //DetailFragment.OnFragmentInteractionListener#onEditSelectedTodo
+    override fun onEditSelectedTodo(
+        title: String,
+        deadline: String,
+        taskDetail: String,
+        isCompleted: Boolean,
+        mode: ModeInEdit
+    ) {
+        goEditScreen(title, deadline, taskDetail, isCompleted, mode)
+    }
+
+    //DetailFragment.OnFragmentInteractionListener#onDataDeleted
+    override fun onDataDeleted() {
+        updateTodoList()
+    }
 
     //MasterFragment.OnListFragmentInteractionListener#onListItemClicked
     override fun onListItemClicked(item: TodoModel) {
@@ -42,7 +60,7 @@ class MainActivity : AppCompatActivity(), EditFragment.OnFragmentInteractionList
         setSupportActionBar(toolbar)
 
         // SmartPhon or Tablet
-        if (R.id.container_detail != null) isTwoPane = true
+        if (container_detail != null) isTwoPane = true
 
         supportFragmentManager.beginTransaction()
             .add(R.id.container_master, MasterFragment.newInstance(1),

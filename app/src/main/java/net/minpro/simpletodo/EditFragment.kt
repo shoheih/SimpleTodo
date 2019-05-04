@@ -69,10 +69,13 @@ class EditFragment : Fragment() {
     private fun updateUi(mode: ModeInEdit) {
         when(mode) {
             ModeInEdit.NEW_ENTRY -> {
-
+                checkBox.visibility = View.INVISIBLE
             }
             ModeInEdit.EDIT -> {
-                checkBox.visibility = View.INVISIBLE
+                inputTitleText.setText(title)
+                inputDateText.setText(deadline)
+                inputDetailText.setText(taskDetail)
+                checkBox.isChecked = isCompleted
             }
         }
     }
@@ -144,7 +147,24 @@ class EditFragment : Fragment() {
     }
 
     private fun editExistingTodo() {
+        val realm = Realm.getDefaultInstance()
+        val selectedTodo = realm.where(TodoModel::class.java)
+            .equalTo(TodoModel::title.name, title)
+            .equalTo(TodoModel::deadLine.name, deadline)
+            .equalTo(TodoModel::taskDetail.name, taskDetail)
+            .findFirst()
+        realm.beginTransaction()
 
+        selectedTodo!!.apply {
+            title = inputTitleText.text.toString()
+            deadLine = inputDateText.text.toString()
+            taskDetail = inputDetailText.text.toString()
+            isCompleted = checkBox.isChecked
+        }
+
+        realm.commitTransaction()
+
+        realm.close()
     }
 
     private fun addNewTodo() {

@@ -1,10 +1,10 @@
 package net.minpro.simpletodo
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
+import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_detail.*
 
 
@@ -72,14 +72,37 @@ class DetailFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item!!.itemId) {
             R.id.menu_delete -> {
-
+                deleteSelectedTodo(title, deadline, taskDetail)
             }
             R.id.menu_edit -> {
-
+                listener?.onEditSelectedTodo(
+                    title!!,
+                    deadline!!,
+                    taskDetail!!,
+                    isCompleted,
+                    ModeInEdit.EDIT)
             }
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun deleteSelectedTodo(title: String?, deadline: String?, taskDetail: String?) {
+        val realm = Realm.getDefaultInstance()
+        val selectedTodo = realm.where(TodoModel::class.java)
+            .equalTo(TodoModel::title.name, title)
+            .equalTo(TodoModel::deadLine.name, deadline)
+            .equalTo(TodoModel::taskDetail.name, taskDetail)
+            .findFirst()
+
+        realm.beginTransaction()
+        selectedTodo!!.deleteFromRealm()
+        realm.commitTransaction()
+
+        listener?.onDataDeleted()
+        fragmentManager!!.beginTransaction().remove(this).commit()
+
+        realm.close()
     }
 
     override fun onAttach(context: Context) {
@@ -109,7 +132,10 @@ class DetailFragment : Fragment() {
      */
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
+        fun onDataDeleted()
+        fun onEditSelectedTodo(title: String, deadline: String,
+                               taskDetail: String, isCompleted: Boolean,
+                               mode: ModeInEdit)
     }
 
     companion object {
